@@ -8,9 +8,9 @@ import axios from 'axios'
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-    <BrowserRouter>
-        <App />
-    </BrowserRouter>
+  <BrowserRouter>
+    <App />
+  </BrowserRouter>
 );
 
 axios.defaults.baseURL = process.env.REACT_APP_SERVER_URL

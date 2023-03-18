@@ -1,16 +1,16 @@
 import './App.css';
 import React from 'react';
-import {Route, Routes} from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import HomePage from "./pages/HomePage/homePage";
 import SearchAdvance from './pages/SearchAdvancePage/searchAdvance';
 
 function App() {
   return (
-      <Routes>
-          <Route path="/" element={<HomePage />}/>
-          <Route path="/search" element={<SearchAdvance />}/>
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+      <Route path="/search" element={<SearchAdvance />} />
 
-          {/* <Route path="/class">
+      {/* <Route path="/class">
               <Route path=":id">
                   <Route path="documents" element={<Documents />} />
                   <Route path="assignments" element={<Assignments />} />
@@ -23,7 +23,7 @@ function App() {
               <Route path="class" element={<AdminClasses />} />
           </Route> */}
 
-      </Routes>
+    </Routes>
   );
 }
 

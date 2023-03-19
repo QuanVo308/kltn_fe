@@ -8,7 +8,7 @@ const HomeLayout = (props) => {
   return (
     // <>
     //   <Box sx={{ height: "100vh" }}>
-    <Stack spacing={2} height="98vh">
+    <Stack spacing={2} height="100vh">
       <Box className="header">
         <Header />
       </Box>

@@ -3,12 +3,14 @@ import React from 'react';
 import { Route, Routes } from "react-router-dom";
 import HomePage from "./pages/HomePage/homePage";
 import SearchAdvance from './pages/SearchAdvancePage/searchAdvance';
+import TestPage from './pages/TestPage/testPage';
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
       <Route path="/search" element={<SearchAdvance />} />
+      <Route path="/test" element={<TestPage />} />
 
       {/* <Route path="/class">
               <Route path=":id">

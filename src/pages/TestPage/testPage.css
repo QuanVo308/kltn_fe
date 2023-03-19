@@ -1,0 +1,9 @@
+.userImg {
+    max-width: 100px;
+    max-height: 100px;
+    cursor: pointer;
+}
+
+.test{
+    color: #868686;
+}

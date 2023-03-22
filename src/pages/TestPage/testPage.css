@@ -1,9 +1,47 @@
 .userImg {
-    max-width: 100px;
-    max-height: 100px;
-    cursor: pointer;
+  max-width: 100px;
+  max-height: 100px;
+  cursor: pointer;
 }
 
-.test{
-    color: #868686;
+.test {
+  color: #c7c7c7;
+}
+
+._sidebar_left {
+  /* position:fixed; */
+  height: 100% !important;
+  /* display: inline-block; */
+  /* width: 14%; */
+  height: 100px;
+  background-color: blue !important;
+  padding: 0px;
+  /* float: left; */
+  /* margin-right: 0 !important;
+      padding-right: 0 !important; */
+  /* border-style: solid; */
+}
+
+._sidebar_right {
+  /* position:fixed; */
+  height: 100% !important;
+  /* display: inline-block; */
+  /* width: 14%; */
+  /* background-color: yellow !important; */
+  padding: 0px;
+  /* float: left; */
+  /* margin-right: 0 !important;
+      padding-right: 0 !important; */
+  /* border-style: solid; */
+}
+
+.section {
+  /* position: fixed; */
+  /* display: inline-block; */
+  height: 100%;
+  /* width: 72%; */
+  background-color: red !important;
+  /* left: 13%;
+        right: 13%; */
+  /* border-style: solid; */
 }

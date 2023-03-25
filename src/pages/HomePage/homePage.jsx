@@ -1,4 +1,4 @@
-import "./homePage.scss";
+import styles from  "./homePage.module.css";
 import HomeLayout from "../../layouts/HomeLayout/homeLayout";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -85,16 +85,16 @@ const HomePage = () => {
     <HomeLayout>
       <Grid container height="100%">
         <Grid item xs={2.5} height="100%">
-          <div className="_sidebar_left">sidebar_left</div>
+          <div className={styles._sidebar_left}>sidebar_left</div>
         </Grid>
         <Grid item xs={7}>
-          <div className="section">
+          <div className={styles.section}>
             <button onClick={handleTest}>test</button>
             <Product info={productInfor}/>
           </div>
         </Grid>
         <Grid item xs={2.5}>
-          <div className="_sidebar_right">
+          <div className={styles._sidebar_right}>
             <Stack>
               <Box paddingLeft={1} padding={1}>
                 <TextField

@@ -1,4 +1,4 @@
-import "./testPage.scss";
+import styles from "./testPage.module.css";
 import HomeLayout from "../../layouts/HomeLayout/homeLayout";
 import TestProductService from "../../services/test.service";
 import Paper from "@mui/material/Paper";
@@ -42,7 +42,7 @@ const TestPage = () => {
     <HomeLayout>
       <Grid container height="100%">
         <Grid item xs={2} height="100%">
-          <div className="_sidebar_left">sidebar_left</div>
+          <div className={styles._sidebar_left}>sidebar_left</div>
         </Grid>
         <Grid item xs={8}>
           <div>TestPage</div>
@@ -75,7 +75,7 @@ const TestPage = () => {
                     <img
                       src={`http://localhost:8000/api/product_test/${anchorImage.id}/get_image/`}
                       alt="UET CLASS"
-                      className="userImg"
+                      className={styles.userImg}
                     />
                   )}
                 </Stack>
@@ -102,7 +102,7 @@ const TestPage = () => {
                           <img
                             src={`http://localhost:8000/api/product_test/${image.id}/get_image/`}
                             alt="UET CLASS"
-                            className="userImg"
+                            className={styles.userImg}
                             onClick={() => {
                               handleImageClick(image);
                             }}
@@ -158,7 +158,7 @@ const TestPage = () => {
           </Paper>
         </Grid>
         <Grid item xs={2}>
-          <div className="_sidebar_right">sidebar_right</div>
+          <div className={styles._sidebar_right}>sidebar_right</div>
         </Grid>
       </Grid>
     </HomeLayout>

@@ -1,4 +1,4 @@
-import "./homeLayout.scss";
+import styles from "./homeLayout.module.css";
 import Header from "../../components/Header/header";
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
@@ -8,7 +8,7 @@ const HomeLayout = (props) => {
     // <>
     //   <Box sx={{ height: "100vh" }}>
     <Stack spacing={0} height="100vh">
-      <Box className="header">
+      <Box className={styles.header}>
         <Header />
       </Box>
       {/* <Grid container height="100%">

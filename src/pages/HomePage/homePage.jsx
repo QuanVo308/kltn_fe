@@ -1,4 +1,4 @@
-import "./homePage.css";
+import "./homePage.scss";
 import HomeLayout from "../../layouts/HomeLayout/homeLayout";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -8,7 +8,23 @@ import React, { useState, useEffect } from "react";
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 import CategoryService from "../../services/category.service";
+import Product from "../../components/Product/product";
 
+const productInfor = {
+  id: 817,
+  name: "Ba lo CAMEL suc chua lon phu hop de di du lich.",
+  price: "649.000",
+  images: [3155, 3156, 3157, 3158, 3159, 3160, 3161, 3162, 3163, 3164],
+  link: "https://shopee.vn/Ba-lô-CAMEL-sức-chứa-lớn-phù-hợp-để-đi-du-lịch.-i.264049024.12731670399",
+  source_description: "Shopee Ba Lo Nam",
+  crawled: true,
+  updated_at: "2023-03-22T09:03:29.040000Z",
+  created_at: "2023-03-22T09:00:46.698000Z",
+  category: {
+    id: 1,
+    name: "ba lo nam",
+  },
+};
 function SelectedItem(props) {
   const { sx, ...other } = props;
   return (
@@ -74,6 +90,7 @@ const HomePage = () => {
         <Grid item xs={7}>
           <div className="section">
             <button onClick={handleTest}>test</button>
+            <Product info={productInfor}/>
           </div>
         </Grid>
         <Grid item xs={2.5}>

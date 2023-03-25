@@ -1,4 +1,4 @@
-import "./homeLayout.css";
+import "./homeLayout.scss";
 import Header from "../../components/Header/header";
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";

@@ -1,4 +1,4 @@
-import "./searchAdvance.css";
+import "./searchAdvance.scss";
 import HomeLayout from "../../layouts/HomeLayout/homeLayout";
 import Grid from "@mui/material/Grid";
 

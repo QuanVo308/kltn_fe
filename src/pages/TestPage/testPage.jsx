@@ -1,4 +1,4 @@
-import "./testPage.css";
+import "./testPage.scss";
 import HomeLayout from "../../layouts/HomeLayout/homeLayout";
 import TestProductService from "../../services/test.service";
 import Paper from "@mui/material/Paper";

@@ -3,8 +3,8 @@
   height: 100% !important;
   /* display: inline-block; */
   /* width: 14%; */
-  height: 100px;
-  background-color: blue !important;
+  /* height: 100px; */
+  /* background-color: blue !important; */
   padding: 0px;
   /* float: left; */
   /* margin-right: 0 !important;
@@ -30,9 +30,8 @@
   /* display: inline-block; */
   height: 100%;
   /* width: 72%; */
-  background-color: red !important;
+  /* background-color: red !important; */
   /* left: 13%;
         right: 13%; */
   /* border-style: solid; */
 }
-

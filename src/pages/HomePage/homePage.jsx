@@ -1,4 +1,4 @@
-import styles from  "./homePage.module.css";
+import styles from "./homePage.module.css";
 import HomeLayout from "../../layouts/HomeLayout/homeLayout";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -14,7 +14,48 @@ const productInfor = {
   id: 817,
   name: "Ba lo CAMEL suc chua lon phu hop de di du lich.",
   price: "649.000",
-  images: [3155, 3156, 3157, 3158, 3159, 3160, 3161, 3162, 3163, 3164],
+  images: [
+    {
+      id: 3155,
+      link: "https://down-vn.img.susercontent.com/file/4ca7b2db4a88c2823c2e0cd946d3e762_tn",
+    },
+    {
+      id: 3156,
+      link: "https://down-vn.img.susercontent.com/file/82f6635baf855ef8c3bfe26ff6ddd0f0_tn",
+    },
+    {
+      id: 3157,
+      link: "https://down-vn.img.susercontent.com/file/f5ccd563b670d4defe0b65771f5e87f0_tn",
+    },
+    {
+      id: 3158,
+      link: "https://down-vn.img.susercontent.com/file/751781dd5e3f6546eea4202eb27bc408_tn",
+    },
+    {
+      id: 3159,
+      link: "https://down-vn.img.susercontent.com/file/e1230738b92bd8a243d77fe102812cf5_tn",
+    },
+    {
+      id: 3160,
+      link: "https://down-vn.img.susercontent.com/file/fc60d6605984d41cdd3331f7d9471b4e_tn",
+    },
+    {
+      id: 3161,
+      link: "https://down-vn.img.susercontent.com/file/37a004af67f3be98c4dc0d89d63e6d8b_tn",
+    },
+    {
+      id: 3162,
+      link: "https://down-vn.img.susercontent.com/file/645326df5f98cda9da6a9dddf3ce05bd_tn",
+    },
+    {
+      id: 3163,
+      link: "https://down-vn.img.susercontent.com/file/8568981511bb90487d13187ec4c43ca8_tn",
+    },
+    {
+      id: 3164,
+      link: "https://down-vn.img.susercontent.com/file/eb6b79503d59bde67cba62069f561449_tn",
+    },
+  ],
   link: "https://shopee.vn/Ba-lô-CAMEL-sức-chứa-lớn-phù-hợp-để-đi-du-lịch.-i.264049024.12731670399",
   source_description: "Shopee Ba Lo Nam",
   crawled: true,
@@ -25,6 +66,7 @@ const productInfor = {
     name: "ba lo nam",
   },
 };
+
 function SelectedItem(props) {
   const { sx, ...other } = props;
   return (
@@ -57,9 +99,9 @@ const HomePage = () => {
     });
   }, []);
 
-  const handleTest = () => {
-    CategoryService.search();
-  };
+  // const handleTest = () => {
+  //   CategoryService.search();
+  // };
 
   const handleSelectItem = (item) => {
     // setSuggestCate((current) => current.filter((sitem) => sitem !== item))
@@ -88,10 +130,55 @@ const HomePage = () => {
           <div className={styles._sidebar_left}>sidebar_left</div>
         </Grid>
         <Grid item xs={7}>
-          <div className={styles.section}>
-            <button onClick={handleTest}>test</button>
-            <Product info={productInfor}/>
-          </div>
+          <Box
+            sx={{
+              display: "flex",
+              flexWrap: "wrap",
+              alignContent: "flex-start",
+              paddingTop: 0.5,
+              // m: 1,
+              bgcolor: "background.paper",
+              maxWidth: "100%",
+              height: "92vh",
+              borderRadius: 1,
+              // backgroundColor: "blue",
+              overflow: "auto",
+            }}
+          >
+            <Box
+              sx={{
+                display: "flex",
+                flexWrap: "wrap",
+                // alignContent: "flex-start",
+                // p: 1,
+                paddingTop: "1%",
+                justifyContent: "space-around",
+                bgcolor: "background.paper",
+                maxWidth: "100%",
+                height: "97%",
+                borderRadius: 1,
+                // backgroundColor: "blue",
+                overflow: "auto",
+              }}
+            >
+              {/* <button onClick={handleTest}>test</button> */}
+
+              <Product info={productInfor} id={70} />
+              <Product info={productInfor} id={75} />
+              <Product info={productInfor} id={80} />
+              <Product info={productInfor} id={85} />
+              <Product info={productInfor} id={85} />
+              <Product info={productInfor} id={85} />
+              <Product info={productInfor} id={85} />
+              <Product info={productInfor} id={85} />
+              <Product info={productInfor} id={85} />
+              <Product info={productInfor} id={85} />
+              <Product info={productInfor} id={85} />
+            </Box>
+          </Box>
+          {/* <div className={styles.section}>
+            
+          </div> */}
         </Grid>
         <Grid item xs={2.5}>
           <div className={styles._sidebar_right}>

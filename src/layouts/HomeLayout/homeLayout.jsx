@@ -22,7 +22,7 @@ const HomeLayout = (props) => {
           <div className="_sidebar_right">sidebar_right</div>
         </Grid>
       </Grid> */}
-      {props.children}
+      <Box className={styles.section}>{props.children}</Box>
     </Stack>
     //   </Box>
     // </>

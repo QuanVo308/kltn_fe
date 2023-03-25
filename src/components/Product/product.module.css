@@ -1,5 +1,9 @@
-.userImgs {
-  max-width: 200px;
+.productImg {
+  /* max-width: 200px; */
   max-height: 200px;
   cursor: pointer;
+}
+
+.platformLogo {
+  max-height: 50px;
 }

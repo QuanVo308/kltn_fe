@@ -11,7 +11,7 @@ class CategoryService {
             .then(function (response) {
                 var categories = []
                 response.data.forEach((category) => {
-                    categories.push(category.name)
+                    categories.push(category)
                 })
                 // console.log(categories);
 
@@ -28,6 +28,26 @@ class CategoryService {
                 quantity: number,
                 search: words
             }
+        })
+            .then(function (response) {
+                var categories = []
+                response.data.forEach((category) => {
+                    categories.push(category)
+                })
+                // console.log(categories);
+
+                return categories;
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+
+    test(selectedCate = []) {
+        return axios.post('/category/test/', {
+
+            categories: selectedCate
+
         })
             .then(function (response) {
                 var categories = []

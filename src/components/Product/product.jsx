@@ -1,6 +1,6 @@
 import styles from "./product.module.css";
-
 import * as React from "react";
+import "../../static/shopee_logo.png";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
@@ -21,13 +21,18 @@ export default function Product(props) {
   const handleMouseOut = () => {
     setShowLink(false);
   };
+
+  const openInNewTab = () => {
+    window.open(props.info.link, '_blank', 'noopener,noreferrer');
+  };
+
   return (
     <Box margin={1} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}>
       {/* <div>{props.info.id}</div> */}
 
       <Card
         sx={{
-          maxWidth: 200,
+          maxWidth: 190,
           height: 390,
           border: 1,
           borderColor: "#c7c7c7",
@@ -50,10 +55,12 @@ export default function Product(props) {
             // bgColor: "yellow",
             height: "170px",
           }}
+          // {... (false ? {border:"5px solid red"} : {})}
+          
         >
           <img
-            src={`http://localhost:8000/api/product_test/${props.id}/get_image/`}
-            alt="UET CLASS"
+            src={`${props.info.images[0].link}`}
+            alt="Product"
             className={styles.productImg}
           />
         </Box>
@@ -77,7 +84,7 @@ export default function Product(props) {
                 }}
                 variant="contained"
               >
-                <Typography fontSize={10} fontWeight={600}>
+                <Typography fontSize={10} fontWeight={600} onClick={() => openInNewTab('https://bobbyhadz.com')}>
                   Đến nơi bán
                 </Typography>
               </Button>
@@ -108,8 +115,8 @@ export default function Product(props) {
             {props.info.price}
           </Typography>
           <img
-            src={`http://localhost:8000/api/product_test/${props.id}/get_image/`}
-            alt="UET CLASS"
+            src={require(`../../static/shopee_logo.png`)}
+            alt="Logo"
             className={styles.platformLogo}
           />
         </CardContent>

@@ -9,65 +9,11 @@ import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 import CategoryService from "../../services/category.service";
 import Product from "../../components/Product/product";
+import ProductService from "../../services/product.service";
+import Button from "@mui/material/Button";
+import Pagination from "@mui/material/Pagination";
 
-const productInfor = {
-  id: 817,
-  name: "Ba lo CAMEL suc chua lon phu hop de di du lich.",
-  price: "649.000",
-  images: [
-    {
-      id: 3155,
-      link: "https://down-vn.img.susercontent.com/file/4ca7b2db4a88c2823c2e0cd946d3e762_tn",
-    },
-    {
-      id: 3156,
-      link: "https://down-vn.img.susercontent.com/file/82f6635baf855ef8c3bfe26ff6ddd0f0_tn",
-    },
-    {
-      id: 3157,
-      link: "https://down-vn.img.susercontent.com/file/f5ccd563b670d4defe0b65771f5e87f0_tn",
-    },
-    {
-      id: 3158,
-      link: "https://down-vn.img.susercontent.com/file/751781dd5e3f6546eea4202eb27bc408_tn",
-    },
-    {
-      id: 3159,
-      link: "https://down-vn.img.susercontent.com/file/e1230738b92bd8a243d77fe102812cf5_tn",
-    },
-    {
-      id: 3160,
-      link: "https://down-vn.img.susercontent.com/file/fc60d6605984d41cdd3331f7d9471b4e_tn",
-    },
-    {
-      id: 3161,
-      link: "https://down-vn.img.susercontent.com/file/37a004af67f3be98c4dc0d89d63e6d8b_tn",
-    },
-    {
-      id: 3162,
-      link: "https://down-vn.img.susercontent.com/file/645326df5f98cda9da6a9dddf3ce05bd_tn",
-    },
-    {
-      id: 3163,
-      link: "https://down-vn.img.susercontent.com/file/8568981511bb90487d13187ec4c43ca8_tn",
-    },
-    {
-      id: 3164,
-      link: "https://down-vn.img.susercontent.com/file/eb6b79503d59bde67cba62069f561449_tn",
-    },
-  ],
-  link: "https://shopee.vn/Ba-lô-CAMEL-sức-chứa-lớn-phù-hợp-để-đi-du-lịch.-i.264049024.12731670399",
-  source_description: "Shopee Ba Lo Nam",
-  crawled: true,
-  updated_at: "2023-03-22T09:03:29.040000Z",
-  created_at: "2023-03-22T09:00:46.698000Z",
-  category: {
-    id: 1,
-    name: "ba lo nam",
-  },
-};
-
-function SelectedItem(props) {
+function CategoryItem(props) {
   const { sx, ...other } = props;
   return (
     <Box
@@ -86,26 +32,76 @@ function SelectedItem(props) {
   );
 }
 
+const itemPerPage = 60;
+
 const HomePage = () => {
   const [selectedCate, setSelectedCate] = useState([]);
+  const [productList, setProductList] = useState([]);
   const [suggestCate, setSuggestCate] = useState([]);
   const [searchCate, setSearchCate] = useState("");
+  const [searchKey, setSearchKey] = useState("");
+  const [page, setPage] = useState(1);
+  const [maxPage, setMaxPage] = useState(2);
 
   useEffect(() => {
     // setSuggestCate(testItems);
     // eslint-disable-next-line react-hooks/exhaustive-deps
+    getNewProductList(getCategoryIds(), searchKey, 1);
     CategoryService.getRandom(10).then((res) => {
       setSuggestCate(res);
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // const handleTest = () => {
-  //   CategoryService.search();
-  // };
+  const getCategoryIds = () => {
+    var categories = [];
+    selectedCate.map((item) => {
+      return categories.push(item.id);
+    });
+    return categories;
+  };
+
+  const getNewProductList = (
+    _selectedCate = [],
+    _searchKey = "",
+    _page = 1
+  ) => {
+    setPage(_page);
+    setProductList([]);
+    ProductService.getFindProduct(_selectedCate, _searchKey, _page).then(
+      (response) => {
+        console.log(response.products.length)
+        setMaxPage(Math.ceil(response.products.length / itemPerPage));
+        setProductList(response.products);
+      }
+    );
+  };
+
+  const handleFilter = () => {
+    getNewProductList(getCategoryIds(), searchKey, 1);
+    // setSearchKey('')
+  };
+
+  const handleChangePage = (event, value) => {
+    if (value < 1) {
+      value = 1;
+    }
+    if (value > maxPage) {
+      value = maxPage;
+    }
+    setPage(value);
+    // getNewProductList(getCategoryIds(), searchKey, value);
+  };
+
+  const handleEnter = () => {
+    getNewProductList(getCategoryIds(), searchKey, 1);
+  };
 
   const handleSelectItem = (item) => {
     // setSuggestCate((current) => current.filter((sitem) => sitem !== item))
-    setSelectedCate([...selectedCate, item]);
+    if (!selectedCate.some((e) => e.id === item.id)) {
+      setSelectedCate([...selectedCate, item]);
+    }
     CategoryService.search(searchCate, 10).then((res) => {
       setSuggestCate(res);
     });
@@ -124,7 +120,12 @@ const HomePage = () => {
   };
 
   return (
-    <HomeLayout>
+    <HomeLayout
+      showSearch={true}
+      searchKey={searchKey}
+      setSearchKey={setSearchKey}
+      handleEnter={handleEnter}
+    >
       <Grid container height="100%">
         <Grid item xs={2.5} height="100%">
           <div className={styles._sidebar_left}>sidebar_left</div>
@@ -161,19 +162,55 @@ const HomePage = () => {
                 overflow: "auto",
               }}
             >
-              {/* <button onClick={handleTest}>test</button> */}
-
-              <Product info={productInfor} id={70} />
-              <Product info={productInfor} id={75} />
-              <Product info={productInfor} id={80} />
-              <Product info={productInfor} id={85} />
-              <Product info={productInfor} id={85} />
-              <Product info={productInfor} id={85} />
-              <Product info={productInfor} id={85} />
-              <Product info={productInfor} id={85} />
-              <Product info={productInfor} id={85} />
-              <Product info={productInfor} id={85} />
-              <Product info={productInfor} id={85} />
+              <Stack>
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexWrap: "wrap",
+                    justifyContent: "space-around",
+                    bgcolor: "background.paper",
+                    maxWidth: "100%",
+                    // height: "97%",
+                    borderRadius: 1,
+                  }}
+                >
+                  {productList.length !== 0 ? (
+                    productList?.map((product, index) => {
+                      if (
+                        index < page * itemPerPage &&
+                        index >= (page - 1) * itemPerPage
+                      ) {
+                        return <Product info={product} />;
+                      } else {
+                        return <></>;
+                      }
+                    })
+                  ) : (
+                    <div>Đang tải....</div>
+                  )}
+                </Box>
+                {productList.length !== 0 && (
+                  <Box
+                    sx={{
+                      display: "flex",
+                      flexWrap: "wrap",
+                      justifyContent: "space-around",
+                      bgcolor: "background.paper",
+                      maxWidth: "100%",
+                      height: "97%",
+                      borderRadius: 1,
+                      paddingTop: "10px",
+                    }}
+                  >
+                    <Pagination
+                      count={maxPage}
+                      page={page}
+                      onChange={handleChangePage}
+                      color="primary"
+                    />
+                  </Box>
+                )}
+              </Stack>
             </Box>
           </Box>
           {/* <div className={styles.section}>
@@ -213,7 +250,7 @@ const HomePage = () => {
               >
                 {selectedCate?.map((item) => {
                   return (
-                    <SelectedItem
+                    <CategoryItem
                       sx={{
                         ":hover": {
                           bgcolor: "#e54850",
@@ -233,8 +270,8 @@ const HomePage = () => {
                           handleRemoveItem(item);
                         }}
                       />
-                      {item}
-                    </SelectedItem>
+                      {item.name}
+                    </CategoryItem>
                   );
                 })}
               </Box>
@@ -255,9 +292,9 @@ const HomePage = () => {
                 }}
               >
                 {suggestCate?.map((item) => {
-                  if (!selectedCate.includes(item)) {
+                  if (!selectedCate.some((e) => e.id === item.id)) {
                     return (
-                      <SelectedItem
+                      <CategoryItem
                         sx={{
                           ":hover": {
                             bgcolor: "#a5a5a5",
@@ -277,14 +314,28 @@ const HomePage = () => {
                             handleSelectItem(item);
                           }}
                         />
-                        {item}
-                      </SelectedItem>
+                        {item.name}
+                      </CategoryItem>
                     );
                   } else {
                     return <></>;
                   }
                 })}
               </Box>
+              <Button
+                variant="contained"
+                sx={{
+                  backgroundColor: "#0A5379",
+                  marginLeft: 1.4,
+                  height: 30,
+                  width: 150,
+                  marginTop: 2,
+                  textTransform: "none",
+                }}
+                onClick={handleFilter}
+              >
+                Lọc sản phẩm
+              </Button>
             </Stack>
           </div>
         </Grid>

@@ -4,12 +4,22 @@ import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 
 const HomeLayout = (props) => {
+  var showSearch = false;
+  if (props.showSearch) {
+    showSearch = props.showSearch;
+  }
+
   return (
     // <>
     //   <Box sx={{ height: "100vh" }}>
     <Stack spacing={0} height="100vh">
       <Box className={styles.header}>
-        <Header />
+        <Header
+          showSearch={showSearch}
+          searchKey={props.searchKey}
+          setSearchKey={props.setSearchKey}
+          handleEnter={props.handleEnter}
+        />
       </Box>
       {/* <Grid container height="100%">
         <Grid item xs={2} height="100%">

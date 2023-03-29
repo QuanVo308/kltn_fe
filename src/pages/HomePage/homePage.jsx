@@ -1,17 +1,16 @@
 import styles from "./homePage.module.css";
 import HomeLayout from "../../layouts/HomeLayout/homeLayout";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
 import CloseIcon from "@mui/icons-material/Close";
 import AddIcon from "@mui/icons-material/Add";
 import React, { useState, useEffect } from "react";
-import Stack from "@mui/material/Stack";
+import { Box, Stack, Grid, Typography, Button } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import CategoryService from "../../services/category.service";
 import Product from "../../components/Product/product";
 import ProductService from "../../services/product.service";
-import Button from "@mui/material/Button";
 import Pagination from "@mui/material/Pagination";
+import Modal from "@mui/material/Modal";
+import ImageChoiceForm from "../../components/ImageChoice/imageChoice";
 
 function CategoryItem(props) {
   const { sx, ...other } = props;
@@ -42,6 +41,8 @@ const HomePage = () => {
   const [searchKey, setSearchKey] = useState("");
   const [page, setPage] = useState(1);
   const [maxPage, setMaxPage] = useState(2);
+  const [openImageChoice, setOpenImageChoice] = useState(false);
+  const [selectedProductId, setSelectedProductId] = useState();
 
   useEffect(() => {
     // setSuggestCate(testItems);
@@ -53,12 +54,27 @@ const HomePage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      CategoryService.search(searchCate, 10).then((res) => {
+        setSuggestCate(res);
+      });
+    }, 1000)
+
+    return () => clearTimeout(timer)
+  }, [searchCate])
+
+
   const getCategoryIds = () => {
     var categories = [];
     selectedCate.map((item) => {
       return categories.push(item.id);
     });
     return categories;
+  };
+
+  const handleCloseImageChoice = () => {
+    setOpenImageChoice(false);
   };
 
   const getNewProductList = (
@@ -70,7 +86,7 @@ const HomePage = () => {
     setProductList([]);
     ProductService.getFindProduct(_selectedCate, _searchKey, _page).then(
       (response) => {
-        console.log(response.products.length)
+        // console.log(response.products.length);
         setMaxPage(Math.ceil(response.products.length / itemPerPage));
         setProductList(response.products);
       }
@@ -107,11 +123,12 @@ const HomePage = () => {
     });
   };
 
-  const handleSetSearchCate = (searchInput) => {
+  const handleSetSearchCate = async (searchInput) => {
     setSearchCate(searchInput);
-    CategoryService.search(searchInput, 10).then((res) => {
-      setSuggestCate(res);
-    });
+
+      // CategoryService.search(searchInput, 10).then((res) => {
+      //   setSuggestCate(res);
+      // });
   };
 
   const handleRemoveItem = (item) => {
@@ -127,10 +144,10 @@ const HomePage = () => {
       handleEnter={handleEnter}
     >
       <Grid container height="100%">
-        <Grid item xs={2.5} height="100%">
-          <div className={styles._sidebar_left}>sidebar_left</div>
+        <Grid item xs={1} height="100%">
+          {/* <div className={styles._sidebar_left}>sidebar_left</div> */}
         </Grid>
-        <Grid item xs={7}>
+        <Grid item xs={8.5}>
           <Box
             sx={{
               display: "flex",
@@ -180,7 +197,14 @@ const HomePage = () => {
                         index < page * itemPerPage &&
                         index >= (page - 1) * itemPerPage
                       ) {
-                        return <Product info={product} />;
+                        return (
+                          <Product
+                            info={product}
+                            setOpenImageChoice={setOpenImageChoice}
+                            setSelectedProductId={setSelectedProductId}
+                            selectedProductId={selectedProductId}
+                          />
+                        );
                       } else {
                         return <></>;
                       }
@@ -223,7 +247,7 @@ const HomePage = () => {
               <Box paddingLeft={1} padding={1}>
                 <TextField
                   id="standard-basic"
-                  label="Chọn phân loại"
+                  label="Nhập tên phân loại"
                   variant="standard"
                   value={searchCate}
                   fullWidth
@@ -232,6 +256,25 @@ const HomePage = () => {
                   }}
                 />
               </Box>
+              {selectedCate.length === 0 && (
+                <Typography
+                  sx={{
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    display: "-webkit-box",
+                    WebkitLineClamp: "4",
+                    WebkitBoxOrient: "vertical",
+                    fontSize: "0.7rem",
+                    fontWeight: "700",
+                    // borderBottom: 1,
+                    // marginBottom: "10px",
+                    color: "#9c9c9c",
+                    paddingLeft: "10px",
+                  }}
+                >
+                  Chưa chọn phân loại nào
+                </Typography>
+              )}
 
               <Box
                 sx={{
@@ -340,6 +383,15 @@ const HomePage = () => {
           </div>
         </Grid>
       </Grid>
+      <Modal
+        open={openImageChoice}
+        onClose={handleCloseImageChoice}
+        aria-describedby="modal-modal-description"
+      >
+        <Box>
+          <ImageChoiceForm selectedProductId={selectedProductId} />
+        </Box>
+      </Modal>
     </HomeLayout>
   );
 };

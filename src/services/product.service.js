@@ -9,14 +9,30 @@ class ProductService {
             page: page,
         })
             .then(function (response) {
-
-                console.log(response.data);
-
+                // console.log(response.data);
                 return response.data;
             })
             .catch(function (error) {
                 console.log(error);
             });
+    }
+
+    getProduct(productId) {
+        return axios.get(`/product/${productId}/`)
+            .then(function (response) {
+                // console.log(response.data);
+                return response.data;
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+
+    getPlatFormLogo (platform) {
+        if (platform === 'shopee') {
+            return require(`../static/shopee_logo.png`)
+        }
+        return require(`../static/shopee_logo.png`)
     }
 }
 

@@ -10,6 +10,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 // import Stack from "@mui/material/Stack";
 import { useState } from "react";
+import ProductService from "../../services/product.service";
 
 export default function Product(props) {
   const [showLink, setShowLink] = useState(false);
@@ -25,6 +26,11 @@ export default function Product(props) {
   const openInNewTab = () => {
     window.open(props.info.link, '_blank', 'noopener,noreferrer');
   };
+
+  const handleFindSimilar = () => {
+    props.setOpenImageChoice(true)
+    props.setSelectedProductId(props.info.id)
+  }
 
   return (
     <Box margin={1} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}>
@@ -115,14 +121,14 @@ export default function Product(props) {
             {props.info.price}
           </Typography>
           <img
-            src={require(`../../static/shopee_logo.png`)}
+            src={ProductService.getPlatFormLogo(props.info.platform)}
             alt="Logo"
             className={styles.platformLogo}
           />
         </CardContent>
         <CardActions>
           <Button size="small">
-            <Typography fontSize={10} fontWeight={600}>
+            <Typography fontSize={10} fontWeight={600} onClick={() => handleFindSimilar()}>
               Tìm tương tự
             </Typography>
           </Button>

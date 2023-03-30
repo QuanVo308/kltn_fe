@@ -2,8 +2,10 @@ import styles from "./imageChoice.module.css";
 import { Box, Stack, Grid, Typography, Button } from "@mui/material";
 import ProductService from "../../services/product.service";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 
 export default function ImageChoiceForm(props) {
+  const navigate = useNavigate();
   const [productInfo, setProductInfo] = useState();
   const [productImgChose, setProductImgChose] = useState();
   const [imageChoosePrevId, setImageChoosePrevId] = useState(-1);
@@ -19,21 +21,29 @@ export default function ImageChoiceForm(props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.selectedProductId]);
 
+  const handleFindSimilar = () => {
+    props.handleCloseImageChoice()
+    navigate("/findSimilar", {
+      state: { product: productInfo, imageChooseSet: imageChooseSet },
+    });
+
+  };
   const handleOnclickMenu = (image) => {
     setProductImgChose(image);
-
-    if (imageChoosePrevId === image.id) {
-      if (imageChooseSet.includes(image.id)) {
+    console.log("test", imageChoosePrevId, image.id);
+    if (imageChoosePrevId.id === image.id) {
+      if (imageChooseSet.some((img) => image.id === img.id)) {
+        console.log("check");
         setImageChooseSet((current) =>
-          current.filter((sitem) => sitem !== image.id)
+          current.filter((sitem) => sitem !== image)
         );
       } else {
-        setImageChooseSet([...imageChooseSet, image.id]);
+        console.log("check1");
+        setImageChooseSet([...imageChooseSet, image]);
       }
     } else {
-      setImageChoosePrevId(image.id);
+      setImageChoosePrevId(image);
     }
-    console.log(imageChooseSet);
   };
 
   return (
@@ -146,7 +156,9 @@ export default function ImageChoiceForm(props) {
                         height: "80px",
                         margin: "5px",
                       }}
-                      {...(imageChooseSet.includes(image.id) && {
+                      {...(imageChooseSet.some(
+                        (img) => img.id === image.id
+                      ) && {
                         border: 2,
                         borderColor: "#da0d0d",
                       })}
@@ -188,6 +200,9 @@ export default function ImageChoiceForm(props) {
                       disabled: "true",
                     })}
                     variant="contained"
+                    onClick={() => {
+                      handleFindSimilar();
+                    }}
                   >
                     <Typography
                       fontSize={13}

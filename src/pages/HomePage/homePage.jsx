@@ -48,6 +48,7 @@ const HomePage = () => {
     // setSuggestCate(testItems);
     // eslint-disable-next-line react-hooks/exhaustive-deps
     getNewProductList(getCategoryIds(), searchKey, 1);
+    setOpenImageChoice(false)
     CategoryService.getRandom(10).then((res) => {
       setSuggestCate(res);
     });
@@ -389,7 +390,7 @@ const HomePage = () => {
         aria-describedby="modal-modal-description"
       >
         <Box>
-          <ImageChoiceForm selectedProductId={selectedProductId} />
+          <ImageChoiceForm selectedProductId={selectedProductId} handleCloseImageChoice={handleCloseImageChoice} />
         </Box>
       </Modal>
     </HomeLayout>

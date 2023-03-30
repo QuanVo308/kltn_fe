@@ -4,6 +4,7 @@ import { Route, Routes } from "react-router-dom";
 import HomePage from "./pages/HomePage/homePage";
 import SearchAdvance from './pages/SearchAdvancePage/searchAdvance';
 import TestPage from './pages/TestPage/testPage';
+import FindSimilarPage from './pages/FindSimilarPage/findSimilarPage';
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
       <Route path="/" element={<HomePage />} />
       <Route path="/search" element={<SearchAdvance />} />
       <Route path="/test" element={<TestPage />} />
+      <Route path="/findSimilar" element={<FindSimilarPage />} />
 
       {/* <Route path="/class">
               <Route path=":id">

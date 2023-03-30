@@ -17,6 +17,19 @@ class ProductService {
             });
     }
 
+    getSimilarProduct(productId, images) {
+        return axios.post(`/product/${productId}/get_similar_product/`, {
+            images: images,
+        })
+            .then(function (response) {
+                // console.log(response.data);
+                return response.data;
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+
     getProduct(productId) {
         return axios.get(`/product/${productId}/`)
             .then(function (response) {

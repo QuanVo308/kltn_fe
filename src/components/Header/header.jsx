@@ -3,8 +3,10 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import SearchIcon from "@mui/icons-material/Search";
+import { useNavigate } from "react-router";
 
 export default function Header(props) {
+  const navigate = useNavigate();
   const handleSeachChange = (search) => {
     // console.log(search);
     props.setSearchKey(search);
@@ -33,7 +35,9 @@ export default function Header(props) {
               height: "40%",
               paddingTop: "3%",
               fontStyle: "italic",
+              cursor: "pointer",
             }}
+            onClick={() => {navigate("/");}}
           >
             PRODUCT
           </Typography>
@@ -47,7 +51,9 @@ export default function Header(props) {
               height: "40%",
               paddingLeft: "10px",
               fontStyle: "italic",
+              cursor: "pointer",
             }}
+            onClick={() => {navigate("/");}}
           >
             COMPARATOR
           </Typography>

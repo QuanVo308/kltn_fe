@@ -1,12 +1,8 @@
 import styles from "./findSimilarPage.module.css";
 import { useLocation, useNavigate } from "react-router-dom";
 import HomeLayout from "../../layouts/HomeLayout/homeLayout";
-import CloseIcon from "@mui/icons-material/Close";
-import AddIcon from "@mui/icons-material/Add";
 import React, { useState, useEffect } from "react";
 import { Box, Stack, Grid, Typography, Button } from "@mui/material";
-import TextField from "@mui/material/TextField";
-import CategoryService from "../../services/category.service";
 import Product from "../../components/Product/product";
 import ProductService from "../../services/product.service";
 import Pagination from "@mui/material/Pagination";
@@ -143,6 +139,7 @@ const FindSimilarPage = () => {
                     borderRadius: 1,
                     // backgroundColor: "blue",
                     overflow: "auto",
+                    backgroundColor: "transparent",
                   }}
                 >
                   {chosenImages.map((image) => (
@@ -155,6 +152,7 @@ const FindSimilarPage = () => {
                         width: "80px",
                         height: "80px",
                         margin: "5px",
+                        backgroundolor: "transparent",
                       }}
                     >
                       <img
@@ -254,7 +252,7 @@ const FindSimilarPage = () => {
                       }
                     })
                   ) : (
-                    <div>Đang tải....</div>
+                    <div>Đang tìm kiếm....</div>
                   )}
                 </Box>
                 {productList.length !== 0 && (

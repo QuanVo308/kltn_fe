@@ -40,31 +40,39 @@ const HomePage = () => {
   const [searchCate, setSearchCate] = useState("");
   const [searchKey, setSearchKey] = useState("");
   const [page, setPage] = useState(1);
+  const [pageTemp, setPageTemp] = useState(1);
   const [maxPage, setMaxPage] = useState(2);
   const [openImageChoice, setOpenImageChoice] = useState(false);
   const [selectedProductId, setSelectedProductId] = useState();
+  const [reload, setReload] = useState(false);
 
   useEffect(() => {
     // setSuggestCate(testItems);
     // eslint-disable-next-line react-hooks/exhaustive-deps
     getNewProductList(getCategoryIds(), searchKey, 1);
-    setOpenImageChoice(false)
+    setOpenImageChoice(false);
     CategoryService.getRandom(10).then((res) => {
       setSuggestCate(res);
     });
+    setSearchKey("");
+    setSearchCate("");
+    setSelectedCate([]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [reload]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
       CategoryService.search(searchCate, 10).then((res) => {
         setSuggestCate(res);
       });
-    }, 1000)
+    }, 1000);
 
-    return () => clearTimeout(timer)
-  }, [searchCate])
+    return () => clearTimeout(timer);
+  }, [searchCate]);
 
+  useEffect(() => {
+    setPage(pageTemp);
+  }, [pageTemp]);
 
   const getCategoryIds = () => {
     var categories = [];
@@ -72,6 +80,10 @@ const HomePage = () => {
       return categories.push(item.id);
     });
     return categories;
+  };
+
+  const handleReload = () => {
+    setReload((prev) => !prev);
   };
 
   const handleCloseImageChoice = () => {
@@ -106,7 +118,13 @@ const HomePage = () => {
     if (value > maxPage) {
       value = maxPage;
     }
-    setPage(value);
+
+    // if (value !== page){
+    //   handleTop()
+    // }
+    setPageTemp(value);
+    setPage(-1);
+
     // getNewProductList(getCategoryIds(), searchKey, value);
   };
 
@@ -127,9 +145,9 @@ const HomePage = () => {
   const handleSetSearchCate = async (searchInput) => {
     setSearchCate(searchInput);
 
-      // CategoryService.search(searchInput, 10).then((res) => {
-      //   setSuggestCate(res);
-      // });
+    // CategoryService.search(searchInput, 10).then((res) => {
+    //   setSuggestCate(res);
+    // });
   };
 
   const handleRemoveItem = (item) => {
@@ -143,6 +161,7 @@ const HomePage = () => {
       searchKey={searchKey}
       setSearchKey={setSearchKey}
       handleEnter={handleEnter}
+      handleReload={handleReload}
     >
       <Grid container height="100%">
         <Grid item xs={1} height="100%">
@@ -160,7 +179,7 @@ const HomePage = () => {
               maxWidth: "100%",
               height: "92vh",
               borderRadius: 1,
-              // backgroundColor: "blue",
+              // backgroundColor: "transparent",
               overflow: "auto",
             }}
           >
@@ -192,7 +211,7 @@ const HomePage = () => {
                     borderRadius: 1,
                   }}
                 >
-                  {productList.length !== 0 ? (
+                  {(productList.length !== 0 && page !== -1) ? (
                     productList?.map((product, index) => {
                       if (
                         index < page * itemPerPage &&
@@ -257,7 +276,7 @@ const HomePage = () => {
                   }}
                 />
               </Box>
-              {selectedCate.length === 0 && (
+              {selectedCate.length === 0 ? (
                 <Typography
                   sx={{
                     overflow: "hidden",
@@ -275,6 +294,24 @@ const HomePage = () => {
                 >
                   Chưa chọn phân loại nào
                 </Typography>
+              ) : (
+                <Typography
+                  sx={{
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    display: "-webkit-box",
+                    WebkitLineClamp: "4",
+                    WebkitBoxOrient: "vertical",
+                    fontSize: "0.7rem",
+                    fontWeight: "700",
+                    // borderBottom: 1,
+                    // marginBottom: "10px",
+                    color: "#9c9c9c",
+                    paddingLeft: "10px",
+                  }}
+                >
+                  Phân loại đã chọn:
+                </Typography>
               )}
 
               <Box
@@ -289,6 +326,7 @@ const HomePage = () => {
                   maxHeight: 200,
                   borderRadius: 1,
                   // backgroundColor: "blue",
+                  backgroundColor: "transparent",
                   overflow: "auto",
                 }}
               >
@@ -299,14 +337,14 @@ const HomePage = () => {
                         ":hover": {
                           bgcolor: "#e54850",
                         },
-                        bgcolor: "#c7c7c7",
+                        bgcolor: "#f3f3f3",
                       }}
                     >
                       <CloseIcon
                         sx={{
                           fontSize: 16,
                           paddingRight: 1,
-                          color: "#c7c7c7",
+                          color: "#f3f3f3",
                           marginBottom: -0.4,
                           cursor: "pointer",
                         }}
@@ -320,6 +358,23 @@ const HomePage = () => {
                 })}
               </Box>
               <Box margin={1} color="#a5a5a5" border={0.2}></Box>
+              <Typography
+                sx={{
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  display: "-webkit-box",
+                  WebkitLineClamp: "4",
+                  WebkitBoxOrient: "vertical",
+                  fontSize: "0.7rem",
+                  fontWeight: "700",
+                  // borderBottom: 1,
+                  // marginBottom: "10px",
+                  color: "#9c9c9c",
+                  paddingLeft: "10px",
+                }}
+              >
+                Phân loại gợi ý:
+              </Typography>
               <Box
                 sx={{
                   display: "flex",
@@ -332,6 +387,7 @@ const HomePage = () => {
                   maxHeight: 200,
                   borderRadius: 1,
                   // backgroundColor: "blue",
+                  backgroundColor: "transparent",
                   overflow: "auto",
                 }}
               >
@@ -343,14 +399,14 @@ const HomePage = () => {
                           ":hover": {
                             bgcolor: "#a5a5a5",
                           },
-                          bgcolor: "#e7e7e7",
+                          bgcolor: "#cdcdcd",
                         }}
                       >
                         <AddIcon
                           sx={{
                             fontSize: 16,
                             paddingRight: 1,
-                            color: "#e7e7e7",
+                            color: "#cdcdcd",
                             marginBottom: -0.4,
                             cursor: "pointer",
                           }}
@@ -390,7 +446,10 @@ const HomePage = () => {
         aria-describedby="modal-modal-description"
       >
         <Box>
-          <ImageChoiceForm selectedProductId={selectedProductId} handleCloseImageChoice={handleCloseImageChoice} />
+          <ImageChoiceForm
+            selectedProductId={selectedProductId}
+            handleCloseImageChoice={handleCloseImageChoice}
+          />
         </Box>
       </Modal>
     </HomeLayout>

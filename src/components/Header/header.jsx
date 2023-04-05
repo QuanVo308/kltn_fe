@@ -37,7 +37,7 @@ export default function Header(props) {
               fontStyle: "italic",
               cursor: "pointer",
             }}
-            onClick={() => {navigate("/");}}
+            onClick={() => {navigate("/"); props.handleReload()}}
           >
             PRODUCT
           </Typography>
@@ -53,7 +53,7 @@ export default function Header(props) {
               fontStyle: "italic",
               cursor: "pointer",
             }}
-            onClick={() => {navigate("/");}}
+            onClick={() => {navigate("/"); props.handleReload()}}
           >
             COMPARATOR
           </Typography>

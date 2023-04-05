@@ -16,6 +16,7 @@ const FindSimilarPage = () => {
   const navigate = useNavigate();
   const [productList, setProductList] = useState([]);
   const [page, setPage] = useState(1);
+  const [pageTemp, setPageTemp] = useState(1);
   const [maxPage, setMaxPage] = useState(2);
   const [chosenProduct, setChosenProduct] = useState();
   const [chosenImages, setChosenImages] = useState([]);
@@ -26,8 +27,8 @@ const FindSimilarPage = () => {
     // setSuggestCate(testItems);
     // eslint-disable-next-line react-hooks/exhaustive-deps
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    
-    findSimilarProducts()
+
+    findSimilarProducts();
     setChosenProduct(state.product);
     setChosenImages(state.imageChooseSet);
     console.log(state.imageChooseSet);
@@ -38,15 +39,21 @@ const FindSimilarPage = () => {
   }, [state]);
 
   const findSimilarProducts = () => {
-    setProductList([])
-    ProductService.getSimilarProduct(state.product.id, getImageID()).then((res) => {
-      setMaxPage(Math.ceil(res.length / itemPerPage));
-      for (let i = 0; i < res.length; i++) {
-        res[i].product_comapre.images = [res[i].test_image]
-        setProductList(current => [...current, res[i].product_comapre])
+    setProductList([]);
+    ProductService.getSimilarProduct(state.product.id, getImageID()).then(
+      (res) => {
+        setMaxPage(Math.ceil(res.length / itemPerPage));
+        for (let i = 0; i < res.length; i++) {
+          res[i].product_comapre.images = [res[i].test_image];
+          setProductList((current) => [...current, res[i].product_comapre]);
+        }
       }
-    });
+    );
   };
+
+  useEffect(() => {
+    setPage(pageTemp);
+  }, [pageTemp]);
 
   const getImageID = () => {
     var imageId = [];
@@ -71,7 +78,8 @@ const FindSimilarPage = () => {
     if (value > maxPage) {
       value = maxPage;
     }
-    setPage(value);
+    setPageTemp(value);
+    setPage(-1);
     // getNewProductList(getCategoryIds(), searchKey, value);
   };
 
@@ -163,27 +171,28 @@ const FindSimilarPage = () => {
                     </Box>
                   ))}
                 </Box>
-                <Box sx={{
-                  width:'100%',
-                  display:'flex',
-                  justifyContent:'center',
-                  marginTop:'20px'
-                }} >
-
-                <Button
-                  variant="contained"
+                <Box
                   sx={{
-                    backgroundColor: "#0A5379",
-                    marginLeft: 1.4,
-                    height: 30,
-                    width: 180,
-                    marginTop: 2,
-                    textTransform: "none",
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "center",
+                    marginTop: "20px",
                   }}
-                  onClick={handleBackHome}
                 >
-                  Quay lại trang chủ
-                </Button>
+                  <Button
+                    variant="contained"
+                    sx={{
+                      backgroundColor: "#0A5379",
+                      // marginLeft: 0,
+                      height: 30,
+                      width: 180,
+                      marginTop: 2,
+                      textTransform: "none",
+                    }}
+                    onClick={handleBackHome}
+                  >
+                    Quay lại trang chủ
+                  </Button>
                 </Box>
               </Stack>
             )}
@@ -252,7 +261,9 @@ const FindSimilarPage = () => {
                       }
                     })
                   ) : (
-                    <div>Đang tìm kiếm....</div>
+                    <Box paddingLeft={5}>
+                      <div>Đang tìm kiếm vui lòng đợi....</div>
+                    </Box>
                   )}
                 </Box>
                 {productList.length !== 0 && (

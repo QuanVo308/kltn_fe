@@ -5,21 +5,21 @@ import Box from "@mui/material/Box";
 
 const HomeLayout = (props) => {
   var showSearch = false;
-  // var handleReload
-  // const handleReloadTemp = () => {
-  //   console.log('temp')
-  // };
+
   if (props.showSearch) {
     showSearch = props.showSearch;
   }
 
-  // if (props.handleReload) {
-  //   console.log('temp')
-  //   handleReload = handleReloadTemp;
-  // } else {
-  //   console.log('not temp')
-    // handleReload = props.handleReload;
-  // }
+  const handleReload = () => {
+    try {
+
+      return props.handleReload()
+    } catch(e) {
+      console.log(e)
+    }
+
+    return false
+  }
 
   return (
     // <>
@@ -31,7 +31,7 @@ const HomeLayout = (props) => {
           searchKey={props.searchKey}
           setSearchKey={props.setSearchKey}
           handleEnter={props.handleEnter}
-          handleReload={props.handleReload}
+          handleReload={handleReload}
         />
       </Box>
       {/* <Grid container height="100%">

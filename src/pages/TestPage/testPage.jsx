@@ -73,7 +73,7 @@ const TestPage = () => {
                   </Typography>
                   {anchorImage && (
                     <img
-                      src={`http://localhost:8000/api/product_test/${anchorImage.id}/get_image/`}
+                      src={`${process.env.REACT_APP_SERVER_URL}/product_test/${anchorImage.id}/get_image/`}
                       alt="UET CLASS"
                       className={styles.userImg}
                     />
@@ -100,7 +100,7 @@ const TestPage = () => {
                       <Grid container height="100%">
                         <Grid item xs={2} height="100%">
                           <img
-                            src={`http://localhost:8000/api/product_test/${image.id}/get_image/`}
+                            src={`${process.env.REACT_APP_SERVER_URL}/product_test/${image.id}/get_image/`}
                             alt="UET CLASS"
                             className={styles.userImg}
                             onClick={() => {

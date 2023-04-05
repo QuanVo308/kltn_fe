@@ -18,6 +18,16 @@ export default function Header(props) {
     }
   };
 
+  const handleClick = () => {
+    navigate("/")
+    try {
+
+      props.handleReload()
+    } catch(e) {
+      console.log(e)
+    }
+}
+
   return (
     <Box height="100%">
       <Grid container height="100%" paddingLeft={2}>
@@ -53,7 +63,8 @@ export default function Header(props) {
               fontStyle: "italic",
               cursor: "pointer",
             }}
-            onClick={() => {navigate("/"); props.handleReload()}}
+            
+            onClick={() => {handleClick()}}
           >
             COMPARATOR
           </Typography>
@@ -106,7 +117,7 @@ export default function Header(props) {
                   onKeyDown={(e) => {
                     handleSeachEnter(e);
                   }}
-                  value = {props.searchKey}
+                  // value = {props.searchKey}
                   placeholder="Nhập tên sản phẩm...."
                 ></input>
               </Box>

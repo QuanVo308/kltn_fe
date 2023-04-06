@@ -1,10 +1,12 @@
 import styles from "./searchAdvance.module.css";
 import HomeLayout from "../../layouts/HomeLayout/homeLayout";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Box, Stack, Grid, Typography, Button, TextField } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import AddIcon from "@mui/icons-material/Add";
+import CachedIcon from "@mui/icons-material/Cached";
 import CategoryService from "../../services/category.service";
+import ProductService from "../../services/product.service";
 
 function CategoryItem(props) {
   const { sx, ...other } = props;
@@ -32,6 +34,8 @@ const SearchAdvance = () => {
   const [fileList, setFileList] = useState([]);
   const [fileDataURLs, setFileDataURLs] = useState([]);
   const [zipTemp, setZipTemp] = useState(null);
+  const inputRef = useRef(null);
+  var formData = new FormData();
 
   useEffect(() => {
     // setSuggestCate(testItems);
@@ -40,9 +44,10 @@ const SearchAdvance = () => {
     CategoryService.getRandom(10).then((res) => {
       setSuggestCate(res);
     });
-
+    setFileDataURLs([]);
     setSearchCate("");
     setSelectedCate([]);
+    setFileList([])
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -57,7 +62,8 @@ const SearchAdvance = () => {
   }, [searchCate, selectedCate]);
 
   useEffect(() => {
-    let fileReader,isCancel = false;
+    let fileReader,
+      isCancel = false;
     var JSZip = require("jszip");
     var zip = new JSZip();
     setFileDataURLs([]);
@@ -80,10 +86,9 @@ const SearchAdvance = () => {
         console.log(blob);
         var tempZip = new File([blob], "temp.zip");
         // console.log(tempZip);
-        setZipTemp(tempZip)
+        setZipTemp(tempZip);
       });
     }
-
   }, [fileList]);
 
   // const getCategoryIds = () => {
@@ -93,30 +98,21 @@ const SearchAdvance = () => {
   //   });
   //   return categories;
   // };
+
   const handleFileChange = (e) => {
     setFileList(e.target.files);
   };
 
+  const handleReloadFileInput = () => {
+    setFileDataURLs([]);
+    setFileList([]);
+    inputRef.current.value = null;
+  };
+
   const test = (e) => {
-    // var JSZip = require("jszip");
-    // var zip = new JSZip();
-    // // let allZip =  zip.file(file.name, file);
-
-    // console.log(fileList);
-    // for (var i = 0; i < fileList.length; i++) {
-    //   console.log(fileList[i].name);
-    //   zip.file(fileList[i].name, fileList[i]);
-    // }
-
-    // console.log(zip);
-
-    // zip.generateAsync({ type: "blob" }).then(function (blob) {
-    //   console.log(blob);
-    //   var f = new File([blob], "temp.zip");
-    //   console.log(f);
-    // });
-
-    console.log(zipTemp)
+    formData.append("file", zipTemp);
+    console.log(zipTemp);
+    ProductService.getSimilarityZip(formData)
   };
 
   const sumProductCategory = () => {
@@ -154,7 +150,7 @@ const SearchAdvance = () => {
   return (
     <HomeLayout>
       <Button onClick={test}>test</Button>
-{/* 
+      {/* 
       {fileDataURLs?.map((image) => {
         return <img src={image} alt="test"></img>
       })} */}
@@ -203,20 +199,112 @@ const SearchAdvance = () => {
               alignContent: "flex-start",
               paddingTop: 0.5,
               // m: 1,
-              bgcolor: "background.paper",
-              maxWidth: "100%",
+              // bgcolor: "blue",
+              width: "100%",
               height: "92vh",
               borderRadius: 1,
               // backgroundColor: "transparent",
-              overflow: "auto",
+              // overflow: "auto",
             }}
           >
-            <input
-              type="file"
-              onChange={handleFileChange}
-              multiple
-              accept="image/*"
-            />
+            <Stack sx={{ width: "100%" }}>
+              <Box sx={{ mt: 1, ml: -1, display:'flex', justifyContent: 'space-between', pr:9 }}>
+                <Typography
+                  sx={{
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    display: "-webkit-box",
+                    WebkitLineClamp: "4",
+                    WebkitBoxOrient: "vertical",
+                    fontSize: "0.9rem",
+                    fontWeight: "700",
+                    // borderBottom: 1,
+                    // marginBottom: "10px",
+                    color: "#606060",
+                    paddingLeft: "10px",
+                  }}
+                >
+                  Các ảnh đã tải lên{" "}
+                </Typography>
+                  <CachedIcon
+                    sx={{
+                      fontSize: 16,
+                      paddingRight: 1,
+                      color: "#606060",
+                      marginBottom: -0.4,
+                      cursor: "pointer",
+                    }}
+                    onClick={() => {
+                      handleReloadFileInput();
+                    }}
+                  />
+              </Box>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  alignContent: "flex-start",
+                  // p: 1,
+                  mt: 1,
+                  mb: 3,
+                  bgcolor: "white",
+                  width: "90%",
+                  maxHeight: "600px",
+                  minHeight: "50px",
+                  borderRadius: 1,
+                  // backgroundColor: "blue",
+                  overflow: "auto",
+                }}
+              >
+                {fileDataURLs?.map((image) => {
+                  return (
+                    <Box
+                      sx={{
+                        display: "flex",
+                        // flexWrap: "wrap",
+                        justifyContent: "center",
+                        // bgcolor: "background.paper",
+                        width: "190px",
+                        height: "190px",
+                        margin: "5px",
+                      }}
+                    >
+                      <img
+                        src={image}
+                        alt="product"
+                        className={styles.productImgMenu}
+                      />
+                    </Box>
+                  );
+                })}
+              </Box>
+              <Box sx={{ mb: 1, ml: -1 }}>
+                <Typography
+                  sx={{
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    display: "-webkit-box",
+                    WebkitLineClamp: "4",
+                    WebkitBoxOrient: "vertical",
+                    fontSize: "0.9rem",
+                    fontWeight: "700",
+                    // borderBottom: 1,
+                    // marginBottom: "10px",
+                    color: "#606060",
+                    paddingLeft: "10px",
+                  }}
+                >
+                  Tải ảnh lên (có thể chọn nhiều tệp)
+                </Typography>
+              </Box>
+              <input
+                type="file"
+                onChange={handleFileChange}
+                multiple
+                accept="image/*"
+                ref={inputRef}
+              />
+            </Stack>
           </Box>
         </Grid>
         <Grid item xs={3}>
@@ -438,7 +526,7 @@ const SearchAdvance = () => {
           </Box>
         </Grid>
         <Grid item xs={1.5}>
-          <div className={styles._sidebar_right}>sidebar_right</div>
+          {/* <div className={styles._sidebar_right}>sidebar_right</div> */}
         </Grid>
       </Grid>
     </HomeLayout>

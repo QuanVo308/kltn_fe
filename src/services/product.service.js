@@ -30,6 +30,17 @@ class ProductService {
             });
     }
 
+    getSimilarityZip(formData) {
+        return axios.post(`/product/upload_zip/`, formData)
+            .then(function (response) {
+                console.log(response.data);
+                return response.data;
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+
     getProduct(productId) {
         return axios.get(`/product/${productId}/`)
             .then(function (response) {

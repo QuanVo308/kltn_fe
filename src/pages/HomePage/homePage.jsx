@@ -65,10 +65,10 @@ const HomePage = () => {
       CategoryService.search(searchCate, 10).then((res) => {
         setSuggestCate(res);
       });
-    }, 1000);
+    }, 700);
 
     return () => clearTimeout(timer);
-  }, [searchCate]);
+  }, [searchCate, selectedCate]);
 
   useEffect(() => {
     setPage(pageTemp);
@@ -137,9 +137,9 @@ const HomePage = () => {
     if (!selectedCate.some((e) => e.id === item.id)) {
       setSelectedCate([...selectedCate, item]);
     }
-    CategoryService.search(searchCate, 10).then((res) => {
-      setSuggestCate(res);
-    });
+    // CategoryService.search(searchCate, 10).then((res) => {
+    //   setSuggestCate(res);
+    // });
   };
 
   const handleSetSearchCate = async (searchInput) => {
@@ -269,7 +269,7 @@ const HomePage = () => {
                   id="standard-basic"
                   label="Nhập tên phân loại"
                   variant="standard"
-                  value={searchCate}
+                  // value={searchCate}
                   fullWidth
                   onChange={(e) => {
                     handleSetSearchCate(e.target.value);
@@ -352,7 +352,7 @@ const HomePage = () => {
                           handleRemoveItem(item);
                         }}
                       />
-                      {item.name}
+                      [{item.quantity}] {item.name}
                     </CategoryItem>
                   );
                 })}
@@ -414,7 +414,7 @@ const HomePage = () => {
                             handleSelectItem(item);
                           }}
                         />
-                        {item.name}
+                        [{item.quantity}] {item.name}
                       </CategoryItem>
                     );
                   } else {

@@ -5,6 +5,7 @@ import HomePage from "./pages/HomePage/homePage";
 import SearchAdvance from './pages/SearchAdvancePage/searchAdvance';
 import TestPage from './pages/TestPage/testPage';
 import FindSimilarPage from './pages/FindSimilarPage/findSimilarPage';
+import FindSimilarAdvancePage from './pages/FindSimilarAdvancePage/findSimilarAdvancePage';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
       <Route path="/search" element={<SearchAdvance />} />
       <Route path="/test" element={<TestPage />} />
       <Route path="/findSimilar" element={<FindSimilarPage />} />
+      <Route path="/findSimilarAdvance" element={<FindSimilarAdvancePage />} />
 
       {/* <Route path="/class">
               <Route path=":id">

@@ -71,7 +71,7 @@ export default function Header(props) {
           {/* </Box> */}
         </Grid>
         <Grid item xs={7}>
-          <div>other</div>
+          {/* <div>other</div> */}
         </Grid>
         <Grid item xs={3}>
           {props.showSearch && (

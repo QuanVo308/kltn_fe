@@ -1,12 +1,13 @@
 import styles from "./searchAdvance.module.css";
 import HomeLayout from "../../layouts/HomeLayout/homeLayout";
 import React, { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { Box, Stack, Grid, Typography, Button, TextField } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import AddIcon from "@mui/icons-material/Add";
 import CachedIcon from "@mui/icons-material/Cached";
 import CategoryService from "../../services/category.service";
-import ProductService from "../../services/product.service";
+// import ProductService from "../../services/product.service";
 
 function CategoryItem(props) {
   const { sx, ...other } = props;
@@ -28,6 +29,7 @@ function CategoryItem(props) {
 }
 
 const SearchAdvance = () => {
+  const navigate = useNavigate();
   const [selectedCate, setSelectedCate] = useState([]);
   const [suggestCate, setSuggestCate] = useState([]);
   const [searchCate, setSearchCate] = useState("");
@@ -35,7 +37,7 @@ const SearchAdvance = () => {
   const [fileDataURLs, setFileDataURLs] = useState([]);
   const [zipTemp, setZipTemp] = useState(null);
   const inputRef = useRef(null);
-  var formData = new FormData();
+  // var formData = new FormData();
 
   useEffect(() => {
     // setSuggestCate(testItems);
@@ -47,7 +49,7 @@ const SearchAdvance = () => {
     setFileDataURLs([]);
     setSearchCate("");
     setSelectedCate([]);
-    setFileList([])
+    setFileList([]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -109,10 +111,21 @@ const SearchAdvance = () => {
     inputRef.current.value = null;
   };
 
-  const test = (e) => {
-    formData.append("file", zipTemp);
-    console.log(zipTemp);
-    ProductService.getSimilarityZip(formData)
+  // const test = (e) => {
+  //   formData.append("file", zipTemp);
+  //   formData.append("categories", getCategoryIds());
+  //   // console.log(getCategoryIds());
+  //   ProductService.getSimilarityZip(formData);
+  // };
+
+  const handleFindSimilarity = () => {
+    navigate("/findSimilarAdvance", {
+      state: {
+        fileDataURLs: fileDataURLs,
+        selectedCate: selectedCate,
+        zipTemp: zipTemp,
+      },
+    });
   };
 
   const sumProductCategory = () => {
@@ -122,6 +135,11 @@ const SearchAdvance = () => {
     }
     // console.log('sum', sum)
     return sum;
+  };
+
+  const handleBackHome = () => {
+    console.log("check");
+    navigate("/");
   };
 
   const handleSelectItem = (item) => {
@@ -149,7 +167,7 @@ const SearchAdvance = () => {
 
   return (
     <HomeLayout>
-      <Button onClick={test}>test</Button>
+      {/* <Button onClick={test}>test</Button> */}
       {/* 
       {fileDataURLs?.map((image) => {
         return <img src={image} alt="test"></img>
@@ -172,23 +190,48 @@ const SearchAdvance = () => {
               overflow: "auto",
             }}
           >
-            <Typography
-              sx={{
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                display: "-webkit-box",
-                WebkitLineClamp: "4",
-                WebkitBoxOrient: "vertical",
-                fontSize: "1.3rem",
-                fontWeight: "700",
-                // borderBottom: 1,
-                // marginBottom: "10px",
-                // color: "#9c9c9c",
-                paddingLeft: "10px",
-              }}
-            >
-              Tìm kiếm nâng cao
-            </Typography>
+            <Stack>
+              <Typography
+                sx={{
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  display: "-webkit-box",
+                  WebkitLineClamp: "4",
+                  WebkitBoxOrient: "vertical",
+                  fontSize: "1.3rem",
+                  fontWeight: "700",
+                  // borderBottom: 1,
+                  // marginBottom: "10px",
+                  // color: "#9c9c9c",
+                  paddingLeft: "10px",
+                }}
+              >
+                Tìm kiếm nâng cao
+              </Typography>
+              <Box marginTop={1}>
+                <Typography
+                  sx={{
+                    // overflow: "hidden",
+                    // textOverflow: "ellipsis",
+                    // display: "-webkit-box",
+                    // WebkitLineClamp: "4",
+                    // WebkitBoxOrient: "vertical",
+                    fontSize: "0.8rem",
+                    fontWeight: "700",
+                    // borderBottom: 1,
+                    // marginBottom: "10px",
+                    color: "#0A5379",
+                    paddingLeft: "10px",
+                    cursor: "pointer",
+                  }}
+                  onClick={() => {
+                    handleBackHome();
+                  }}
+                >
+                  Quay lại trang chủ
+                </Typography>
+              </Box>
+            </Stack>
           </Box>
         </Grid>
         <Grid item xs={5.5}>
@@ -208,7 +251,15 @@ const SearchAdvance = () => {
             }}
           >
             <Stack sx={{ width: "100%" }}>
-              <Box sx={{ mt: 1, ml: -1, display:'flex', justifyContent: 'space-between', pr:9 }}>
+              <Box
+                sx={{
+                  mt: 1,
+                  ml: -1,
+                  display: "flex",
+                  justifyContent: "space-between",
+                  pr: 9,
+                }}
+              >
                 <Typography
                   sx={{
                     overflow: "hidden",
@@ -226,18 +277,18 @@ const SearchAdvance = () => {
                 >
                   Các ảnh đã tải lên{" "}
                 </Typography>
-                  <CachedIcon
-                    sx={{
-                      fontSize: 16,
-                      paddingRight: 1,
-                      color: "#606060",
-                      marginBottom: -0.4,
-                      cursor: "pointer",
-                    }}
-                    onClick={() => {
-                      handleReloadFileInput();
-                    }}
-                  />
+                <CachedIcon
+                  sx={{
+                    fontSize: 16,
+                    paddingRight: 1,
+                    color: "#606060",
+                    marginBottom: -0.4,
+                    cursor: "pointer",
+                  }}
+                  onClick={() => {
+                    handleReloadFileInput();
+                  }}
+                />
               </Box>
               <Box
                 sx={{
@@ -249,7 +300,7 @@ const SearchAdvance = () => {
                   mb: 3,
                   bgcolor: "white",
                   width: "90%",
-                  maxHeight: "600px",
+                  maxHeight: "400px",
                   minHeight: "50px",
                   borderRadius: 1,
                   // backgroundColor: "blue",
@@ -297,13 +348,55 @@ const SearchAdvance = () => {
                   Tải ảnh lên (có thể chọn nhiều tệp)
                 </Typography>
               </Box>
-              <input
-                type="file"
-                onChange={handleFileChange}
-                multiple
-                accept="image/*"
-                ref={inputRef}
-              />
+              <Box
+                sx={{
+                  mt: 1,
+                  // ml: -1,
+                  display: "flex",
+                  justifyContent: "space-between",
+                  pr: 9,
+                }}
+              >
+                <input
+                  type="file"
+                  onChange={handleFileChange}
+                  multiple
+                  accept="image/*"
+                  ref={inputRef}
+                />
+                <Stack>
+                  {selectedCate.length === 0 && (
+                    <Typography fontSize={13} fontWeight={600} color="red">
+                      Vui lòng chọn ít nhất một phân loại
+                    </Typography>
+                  )}
+                  <Box
+                    sx={{
+                      width: "100%",
+                      display: "flex",
+                      justifyContent: "flex-end",
+                    }}
+                  >
+                    <Button
+                      variant="contained"
+                      sx={{
+                        backgroundColor: "#0A5379",
+                        // marginLeft: 0,
+                        height: 30,
+                        width: 160,
+                        marginTop: 2,
+                        textTransform: "none",
+                      }}
+                      {...(selectedCate.length === 0 && {
+                        disabled: "true",
+                      })}
+                      onClick={handleFindSimilarity}
+                    >
+                      Tìm kiếm tương tự
+                    </Button>
+                  </Box>
+                </Stack>
+              </Box>
             </Stack>
           </Box>
         </Grid>
@@ -316,15 +409,15 @@ const SearchAdvance = () => {
               paddingTop: 0.5,
               // m: 1,
               bgcolor: "background.paper",
-              maxWidth: "100%",
+              width: "100%",
               height: "92vh",
               borderRadius: 1,
               backgroundColor: "transparent",
               overflow: "auto",
             }}
           >
-            <Stack>
-              <Box paddingLeft={1} padding={1}>
+            <Stack width="100%">
+              <Box paddingLeft={1} padding={1} width="100%">
                 <TextField
                   id="standard-basic"
                   label="Nhập tên phân loại"
@@ -383,7 +476,7 @@ const SearchAdvance = () => {
                   // m: 1,
                   bgcolor: "background.paper",
                   maxWidth: "100%",
-                  maxHeight: 200,
+                  maxHeight: 150,
                   borderRadius: 1,
                   // backgroundColor: "blue",
                   backgroundColor: "transparent",
@@ -525,9 +618,7 @@ const SearchAdvance = () => {
             </Stack>
           </Box>
         </Grid>
-        <Grid item xs={1.5}>
-          {/* <div className={styles._sidebar_right}>sidebar_right</div> */}
-        </Grid>
+        <Grid item xs={1.5}></Grid>
       </Grid>
     </HomeLayout>
   );

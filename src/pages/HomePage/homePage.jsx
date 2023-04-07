@@ -11,6 +11,8 @@ import ProductService from "../../services/product.service";
 import Pagination from "@mui/material/Pagination";
 import Modal from "@mui/material/Modal";
 import ImageChoiceForm from "../../components/ImageChoice/imageChoice";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import { useNavigate } from "react-router";
 
 function CategoryItem(props) {
   const { sx, ...other } = props;
@@ -34,6 +36,7 @@ function CategoryItem(props) {
 const itemPerPage = 60;
 
 const HomePage = () => {
+  const navigate = useNavigate();
   const [selectedCate, setSelectedCate] = useState([]);
   const [productList, setProductList] = useState([]);
   const [suggestCate, setSuggestCate] = useState([]);
@@ -80,6 +83,10 @@ const HomePage = () => {
       return categories.push(item.id);
     });
     return categories;
+  };
+
+  const handleOnclickAdvance = () => {
+    navigate("/search");
   };
 
   const handleReload = () => {
@@ -211,7 +218,7 @@ const HomePage = () => {
                     borderRadius: 1,
                   }}
                 >
-                  {(productList.length !== 0 && page !== -1) ? (
+                  {productList.length !== 0 && page !== -1 ? (
                     productList?.map((product, index) => {
                       if (
                         index < page * itemPerPage &&
@@ -435,6 +442,32 @@ const HomePage = () => {
                 onClick={handleFilter}
               >
                 Lọc sản phẩm
+              </Button>
+              <Button
+                variant="contained"
+                sx={{
+                  backgroundColor: "#0A5379",
+                  marginLeft: 1.4,
+                  height: 30,
+                  width: 200,
+                  marginTop: 2,
+                  textTransform: "none",
+                }}
+                onClick={() => {
+                  handleOnclickAdvance();
+                }}
+              >
+                Tìm kiếm nâng cao{" "}
+                <ArrowForwardIosIcon
+                  sx={{
+                    fontSize: 16,
+                    // paddingRight: 1,
+                    marginLeft: 2,
+                    color: "white",
+                    marginBottom: -0.4,
+                    cursor: "pointer",
+                  }}
+                />
               </Button>
             </Stack>
           </div>

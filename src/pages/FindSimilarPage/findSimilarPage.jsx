@@ -8,6 +8,7 @@ import ProductService from "../../services/product.service";
 import Pagination from "@mui/material/Pagination";
 import Modal from "@mui/material/Modal";
 import ImageChoiceForm from "../../components/ImageChoice/imageChoice";
+import ImageMenu from "../../components/ImageMenu/imageMenu";
 
 const itemPerPage = 60;
 
@@ -20,6 +21,7 @@ const FindSimilarPage = () => {
   const [maxPage, setMaxPage] = useState(2);
   const [chosenProduct, setChosenProduct] = useState();
   const [chosenImages, setChosenImages] = useState([]);
+  const [openImageMenu, setOpenImageMenu] = useState(false);
   const [openImageChoice, setOpenImageChoice] = useState(false);
   const [selectedProductId, setSelectedProductId] = useState();
 
@@ -29,6 +31,7 @@ const FindSimilarPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
 
     findSimilarProducts();
+    setOpenImageMenu(false)
     setChosenProduct(state.product);
     setChosenImages(state.imageChooseSet);
     console.log(state.imageChooseSet);
@@ -69,6 +72,10 @@ const FindSimilarPage = () => {
 
   const handleBackHome = () => {
     navigate("/");
+  };
+
+  const handleCloseImageMenu = () => {
+    setOpenImageMenu(false);
   };
 
   const handleChangePage = (event, value) => {
@@ -254,6 +261,7 @@ const FindSimilarPage = () => {
                             setOpenImageChoice={setOpenImageChoice}
                             setSelectedProductId={setSelectedProductId}
                             selectedProductId={selectedProductId}
+                            setOpenImageMenu={setOpenImageMenu}
                           />
                         );
                       } else {
@@ -307,6 +315,18 @@ const FindSimilarPage = () => {
           <ImageChoiceForm
             selectedProductId={selectedProductId}
             handleCloseImageChoice={handleCloseImageChoice}
+          />
+        </Box>
+      </Modal>
+      <Modal
+        open={openImageMenu}
+        onClose={handleCloseImageMenu}
+        aria-describedby="modal-modal-description"
+      >
+        <Box>
+          <ImageMenu
+            selectedProductId={selectedProductId}
+            handleCloseImageMenu={handleCloseImageMenu}
           />
         </Box>
       </Modal>

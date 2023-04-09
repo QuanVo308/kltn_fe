@@ -8,6 +8,7 @@ import ProductService from "../../services/product.service";
 import Pagination from "@mui/material/Pagination";
 import Modal from "@mui/material/Modal";
 import ImageChoiceForm from "../../components/ImageChoice/imageChoice";
+import ImageMenu from "../../components/ImageMenu/imageMenu";
 
 const itemPerPage = 60;
 
@@ -21,13 +22,14 @@ const FindSimilarAdvancePage = () => {
   const [chosenImages, setChosenImages] = useState([]);
   const [openImageChoice, setOpenImageChoice] = useState(false);
   const [selectedProductId, setSelectedProductId] = useState();
+  const [openImageMenu, setOpenImageMenu] = useState(false);
   var formData = new FormData();
 
   useEffect(() => {
     // setSuggestCate(testItems);
     // eslint-disable-next-line react-hooks/exhaustive-deps
     // eslint-disable-next-line react-hooks/exhaustive-deps
-
+    setOpenImageMenu(false)
     findSimilarProducts();
     setChosenImages(state.fileDataURLs);
     console.log(state.fileDataURLs);
@@ -67,6 +69,12 @@ const FindSimilarAdvancePage = () => {
   const handleCloseImageChoice = () => {
     setOpenImageChoice(false);
   };
+
+  const handleCloseImageMenu = () => {
+    setOpenImageMenu(false);
+  };
+
+
 
   const handleBackHome = () => {
     navigate("/");
@@ -230,6 +238,7 @@ const FindSimilarAdvancePage = () => {
                             setOpenImageChoice={setOpenImageChoice}
                             setSelectedProductId={setSelectedProductId}
                             selectedProductId={selectedProductId}
+                            setOpenImageMenu={setOpenImageMenu}
                           />
                         );
                       } else {
@@ -283,6 +292,19 @@ const FindSimilarAdvancePage = () => {
           <ImageChoiceForm
             selectedProductId={selectedProductId}
             handleCloseImageChoice={handleCloseImageChoice}
+          />
+        </Box>
+      </Modal>
+
+      <Modal
+        open={openImageMenu}
+        onClose={handleCloseImageMenu}
+        aria-describedby="modal-modal-description"
+      >
+        <Box>
+          <ImageMenu
+            selectedProductId={selectedProductId}
+            handleCloseImageMenu={handleCloseImageMenu}
           />
         </Box>
       </Modal>

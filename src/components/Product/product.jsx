@@ -23,6 +23,11 @@ export default function Product(props) {
     setShowLink(false);
   };
 
+  const handleOpenMenu = () => {
+    props.setSelectedProductId(props.info.id)
+    props.setOpenImageMenu(true)
+  }
+
   const openInNewTab = () => {
     window.open(props.info.link, '_blank', 'noopener,noreferrer');
   };
@@ -61,6 +66,7 @@ export default function Product(props) {
             // bgColor: "yellow",
             height: "170px",
           }}
+          onClick={() => handleOpenMenu()}
           // {... (false ? {border:"5px solid red"} : {})}
           
         >
@@ -68,6 +74,7 @@ export default function Product(props) {
             src={`${props.info.images[0].link}`}
             alt="Product"
             className={styles.productImg}
+            
           />
         </Box>
 

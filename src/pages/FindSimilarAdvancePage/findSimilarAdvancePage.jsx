@@ -106,7 +106,7 @@ const FindSimilarAdvancePage = () => {
                     borderColor: "#000000",
                   }}
                 >
-                  Ảnh nhập vào
+                  Ảnh nhập vào:
                 </Typography>
                 
 

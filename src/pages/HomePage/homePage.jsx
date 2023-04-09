@@ -11,6 +11,7 @@ import ProductService from "../../services/product.service";
 import Pagination from "@mui/material/Pagination";
 import Modal from "@mui/material/Modal";
 import ImageChoiceForm from "../../components/ImageChoice/imageChoice";
+import ImageMenu from "../../components/ImageMenu/imageMenu";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { useNavigate } from "react-router";
 
@@ -46,6 +47,7 @@ const HomePage = () => {
   const [pageTemp, setPageTemp] = useState(1);
   const [maxPage, setMaxPage] = useState(2);
   const [openImageChoice, setOpenImageChoice] = useState(false);
+  const [openImageMenu, setOpenImageMenu] = useState(false);
   const [selectedProductId, setSelectedProductId] = useState();
   const [reload, setReload] = useState(false);
 
@@ -54,6 +56,7 @@ const HomePage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     getNewProductList(getCategoryIds(), searchKey, 1);
     setOpenImageChoice(false);
+    setOpenImageMenu(false)
     CategoryService.getRandom(10).then((res) => {
       setSuggestCate(res);
     });
@@ -95,6 +98,10 @@ const HomePage = () => {
 
   const handleCloseImageChoice = () => {
     setOpenImageChoice(false);
+  };
+
+  const handleCloseImageMenu = () => {
+    setOpenImageMenu(false);
   };
 
   const getNewProductList = (
@@ -230,6 +237,7 @@ const HomePage = () => {
                             setOpenImageChoice={setOpenImageChoice}
                             setSelectedProductId={setSelectedProductId}
                             selectedProductId={selectedProductId}
+                            setOpenImageMenu={setOpenImageMenu}
                           />
                         );
                       } else {
@@ -482,6 +490,19 @@ const HomePage = () => {
           <ImageChoiceForm
             selectedProductId={selectedProductId}
             handleCloseImageChoice={handleCloseImageChoice}
+          />
+        </Box>
+      </Modal>
+
+      <Modal
+        open={openImageMenu}
+        onClose={handleCloseImageMenu}
+        aria-describedby="modal-modal-description"
+      >
+        <Box>
+          <ImageMenu
+            selectedProductId={selectedProductId}
+            handleCloseImageMenu={handleCloseImageMenu}
           />
         </Box>
       </Modal>

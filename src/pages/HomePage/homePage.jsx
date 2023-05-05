@@ -14,6 +14,7 @@ import ImageChoiceForm from "../../components/ImageChoice/imageChoice";
 import ImageMenu from "../../components/ImageMenu/imageMenu";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { useNavigate } from "react-router";
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
 
 function CategoryItem(props) {
   const { sx, ...other } = props;
@@ -367,7 +368,7 @@ const HomePage = () => {
                           handleRemoveItem(item);
                         }}
                       />
-                      [{item.quantity}] {item.name}
+                      [{item.quantity}] {item.name_raw}
                     </CategoryItem>
                   );
                 })}
@@ -429,7 +430,7 @@ const HomePage = () => {
                             handleSelectItem(item);
                           }}
                         />
-                        [{item.quantity}] {item.name}
+                        [{item.quantity}] {item.name_raw}
                       </CategoryItem>
                     );
                   } else {
@@ -449,7 +450,14 @@ const HomePage = () => {
                 }}
                 onClick={handleFilter}
               >
-                Lọc sản phẩm
+                <FilterAltIcon sx={{
+                          fontSize: 16,
+                          paddingRight: 1,
+                          color: "white",
+                          // marginBottom: -0.4,
+                          cursor: "pointer",
+                        }}
+                        /> Lọc sản phẩm
               </Button>
               <Button
                 variant="contained"

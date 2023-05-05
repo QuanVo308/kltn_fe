@@ -505,7 +505,7 @@ const SearchAdvance = () => {
                           handleRemoveItem(item);
                         }}
                       />
-                      [{item.quantity}] {item.name}
+                      [{item.quantity}] {item.name_raw}
                     </CategoryItem>
                   );
                 })}
@@ -567,7 +567,7 @@ const SearchAdvance = () => {
                             handleSelectItem(item);
                           }}
                         />
-                        [{item.quantity}] {item.name}
+                        [{item.quantity}] {item.name_raw}
                       </CategoryItem>
                     );
                   } else {

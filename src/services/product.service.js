@@ -5,8 +5,7 @@ class ProductService {
     getFindProduct(selectedCate = [], searchKey='', page = 1) {
         return axios.post('/product/find_product/', {
             categories: selectedCate,
-            name: searchKey,
-            page: page,
+            name: searchKey
         })
             .then(function (response) {
                 // console.log(response.data);

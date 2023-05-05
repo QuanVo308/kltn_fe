@@ -49,7 +49,7 @@ export default function Header(props) {
             }}
             onClick={() => {navigate("/"); props.handleReload()}}
           >
-            PRODUCT
+            VISUAL
           </Typography>
           <Typography
             fontSize={15}
@@ -59,14 +59,14 @@ export default function Header(props) {
               display: "flex",
               alignItems: "center",
               height: "40%",
-              paddingLeft: "10px",
+              paddingLeft: "20px",
               fontStyle: "italic",
               cursor: "pointer",
             }}
             
             onClick={() => {handleClick()}}
           >
-            COMPARATOR
+            SEARCHER
           </Typography>
           {/* </Box> */}
         </Grid>
